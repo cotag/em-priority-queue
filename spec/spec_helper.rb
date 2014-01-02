@@ -1,5 +1,5 @@
 $:.unshift File.dirname(__FILE__) + '/../lib'
-require 'em-priority-queue'
+require 'uv-priority-queue'
 require 'delorean'
 
 RSpec.configure do |config|

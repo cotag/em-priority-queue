@@ -1,20 +1,21 @@
-EventMachine Priority Queue
+Libuv Priority Queue
 =============
 
-[![Build Status](https://secure.travis-ci.org/mikelewis/em-priority-queue.png)](http://travis-ci.org/mikelewis/em-priority-queue)
+[![Build Status](https://secure.travis-ci.org/cotag/uv-priority-queue.png)](http://travis-ci.org/cotag/uv-priority-queue)
 
 
 ##Install
-    [sudo] gem install em-priority-queue
+    [sudo] gem install uv-priority-queue
 
 ##Usage
 
   **Basic**
 
-    @q = EM::PriorityQueue.new
+    @q = UV::PriorityQueue.new
 
     responses = []
-      EM.run do
+      loop = Libuv::Loop.default
+      loop.run do
 
 
         @q.push("Mike", 20)
@@ -25,7 +26,7 @@ EventMachine Priority Queue
         4.times do
           @q.pop do |e|
             responses << e
-            EM.stop if responses.size == 4
+            loop.stop if responses.size == 4
           end
         end
       end
@@ -37,11 +38,11 @@ EventMachine Priority Queue
 
   **Custom Priority**
 
-    @q = EM::PriorityQueue.new {|x,y| x < y}
+    @q = UV::PriorityQueue.new {|x,y| x < y}
 
     responses = []
-      EM.run do
-
+      loop = Libuv::Loop.default
+      loop.run do
 
         @q.push("Mike", 20)
         @q.push("Alex", 21)
@@ -51,7 +52,7 @@ EventMachine Priority Queue
         4.times do
           @q.pop do |e|
             responses << e
-            EM.stop if responses.size == 4
+            loop.stop if responses.size == 4
           end
         end
       end
@@ -66,10 +67,11 @@ EventMachine Priority Queue
 
   When values have the same priority, you may want to use FIFO to prioritize even more. This way, em-priority-queue will pop the items in the order that they were pushed.
 
-    @q = EM::PriorityQueue.new(:fifo => true)
+    @q = UV::PriorityQueue.new(:fifo => true)
 
     responses = []
-      EM.run do
+      loop = Libuv::Loop.default
+      loop.run do
         @q.push("Mike", 20)
         @q.push("Alex", 21)
         @q.push("Bob", 20)
@@ -79,7 +81,7 @@ EventMachine Priority Queue
         5.times do
           @q.pop do |e|
             responses << e
-            EM.stop if responses.size == 5
+            loop.stop if responses.size == 5
           end
         end
       end
@@ -92,10 +94,11 @@ EventMachine Priority Queue
 
   **FIFO with custom priority**
 
-    @q = EM::PriorityQueue.new(:fifo => true) {|x,y| x < y}
+    @q = UV::PriorityQueue.new(:fifo => true) {|x,y| x < y}
 
     responses = []
-      EM.run do
+      loop = Libuv::Loop.default
+      loop.run do
 
 
         @q.push("Mike", 20)
@@ -107,7 +110,7 @@ EventMachine Priority Queue
         5.times do
           @q.pop do |e|
             responses << e
-            EM.stop if responses.size == 5
+            loop.stop if responses.size == 5
           end
         end
       end
